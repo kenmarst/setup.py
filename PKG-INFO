@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: br06_setup
+Version: 0.0.0
+Summary: install: django, mysqlclient, django-nose, django-nocaptcha-recaptcha, django-bootstrap3, pytz, psutil, requests
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

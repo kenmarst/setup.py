@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "BR06 monitor service Start"
+while true :
+do
+    if [ `ps -aux | grep treefrog | grep -v grep | wc -l` -eq 0 ]; then
+        service br06_service starttcit
+    fi
+
+    if [ `ps -aux | grep "FingerprintService$" | grep -v grep | wc -l` -eq 0 ]; then
+        service br06_service startfps
+    elif [ `ps -aux | grep FingerprintService | grep -v grep | wc -l` -ge 2 ]; then
+        echo "Fingerprint service multiple exists, restart Fingerprint service"
+        service br06_service restartfps
+    fi
+
+    if [ `ps -aux | grep httpd | grep -v grep | wc -l` -eq 0 ]; then
+        echo "Start httpd service"
+        service httpd start
+    fi
+
+    sleep 60
+done

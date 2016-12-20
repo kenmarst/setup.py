@@ -1,0 +1,81 @@
+#!/bin/bash
+#chkconfig: 2345 80 05
+
+ # chkconfig --add /etc/init.d/br06_service
+ # chkconfig br06_service on
+
+export VLC_PLUGIN_PATH=/usr/lib/vlc/plugins
+export LD_LIBRARY_PATH=./bin/:/usr/lib64:$LD_LIBRARY_PATH
+
+export TCIT_PATH=/opt/TCIT
+export FINGERPRINT_PATH=/var/www/br06/fingerprinterd
+chmod +x $TCIT_PATH/bin/treefrog
+
+RETVA=0
+
+start_tcit(){
+    if [ `ps -aux | grep treefrog | grep -v grep | wc -l` -eq 0 ]; then
+        echo "Start TCIT service"
+        cd $TCIT_PATH
+        ./bin/treefrog &
+    fi
+}
+
+start_fingerprint() {
+    if [ `ps -aux | grep "FingerprintService$" | grep -v grep | wc -l` -eq 0 ]; then
+        echo "Start Fingerprint service"
+        cd $FINGERPRINT_PATH
+        ./FingerprintService &
+    fi
+}
+
+start_monitor() {
+    if [ `ps -aux | grep br06_monitor | grep -v grep | wc -l` -eq 0 ]; then
+        echo "Start BR06 monitor service"
+        /opt/br06_monitor &
+    fi
+}
+
+stop_tcit(){
+    pkill -f treefrog
+    echo "TCIT service is stoped"
+}
+
+stop_fingerprint(){
+    pkill -f FingerprintService
+    echo "Fingerprint service is stoped"
+}
+
+stop_monitor() {
+    pkill -f br06_monitor
+    echo "BR06 monitor service is stoped"
+}
+
+case $1 in
+    start)
+        start_monitor
+        ;;
+    starttcit)
+        start_tcit
+        ;;
+    startfps)
+        start_fingerprint
+        ;;
+    restarttcit)
+        stop_tcit
+        start_tcit
+        ;;
+    restartfps)
+        stop_fingerprint
+        start_fingerprint
+        ;;
+    stop)
+        stop_monitor
+        stop_tcit
+        stop_fingerprint
+        service httpd stop
+        ;;
+    *)
+        echo "Without this operation! Please use useful operation (start | starttcit | startfps | restarttcit | restartfps | stop)";;
+esac
+exit $RETVA

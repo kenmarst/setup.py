@@ -1,0 +1,8 @@
+Django == 1.9.4
+mysqlclient
+django-nose
+django-nocaptcha-recaptcha
+django-bootstrap3
+pytz
+psutil
+requests

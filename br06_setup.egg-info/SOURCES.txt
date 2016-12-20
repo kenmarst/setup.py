@@ -1,0 +1,6 @@
+setup.py
+br06_setup.egg-info/PKG-INFO
+br06_setup.egg-info/SOURCES.txt
+br06_setup.egg-info/dependency_links.txt
+br06_setup.egg-info/requires.txt
+br06_setup.egg-info/top_level.txt
